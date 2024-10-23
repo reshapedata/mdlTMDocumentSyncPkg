@@ -51,8 +51,8 @@ inner join   view_material_return_order_detail  as  b
 on a.id = b.sub_return_order_id
 left join view_material_return_outstore_detail c
 on   c.order_detail_id  =   b.sub_return_order_id
-where YEAR(a.f_date) = '",fyear,"'
-AND MONTH(a.f_date)='",fmonth,"' ")
+where YEAR(c.create_time) = '",fyear,"'
+AND MONTH(c.create_time)='",fmonth,"' ")
 
   res <- tsda::mysql_select2(token =wms_token,sql = sql)
 
@@ -75,7 +75,7 @@ AND MONTH(a.f_date)='",fmonth,"' ")
 #' TmWMS_purchaseReturn_deleteBymonth()
 TmWMS_purchaseReturn_deleteBymonth<- function(dms_token,fyear,fmonth) {
   sql=paste0("delete  from rds_dms_src_t_pur_mrb
-where YEAR(f_date) = '",fyear,"' AND MONTH(f_date)='",fmonth,"' ")
+where YEAR(f_create_time) = '",fyear,"' AND MONTH(f_create_time)='",fmonth,"' ")
 
   res <- tsda::sql_delete2(token =dms_token,sql_str = sql)
 
@@ -186,7 +186,7 @@ unit  as  单位,
 create_user_name  as  负责人,
 materialstatus  as  物料状态
 from rds_dms_src_t_pur_mrb
-where CAST(f_date  AS date) = '",fdate,"' ")
+where CAST(f_create_time  AS date) = '",fdate,"' ")
 
   res <- tsda::sql_select2(token =dms_token,sql = sql)
 
@@ -241,7 +241,7 @@ unit  as  单位,
 create_user_name  as  负责人,
 materialstatus  as  物料状态
 from rds_dms_src_t_pur_mrb
-where CAST(f_date AS date) > ='",FStartDate,"' and CAST(f_date AS date) <= '",FEndDate,"'
+where CAST(f_create_time AS date) > ='",FStartDate,"' and CAST(f_create_time AS date) <= '",FEndDate,"'
              ")
 
   res <- tsda::sql_select2(token =dms_token,sql = sql)

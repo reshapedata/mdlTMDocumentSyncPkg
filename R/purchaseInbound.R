@@ -48,8 +48,8 @@ inner join view_material_order_detail  b
 on a.id = b.sub_material_order_id
 inner join  view_material_instore_order_detail c
 on  c.material_order_detail_id = b.sub_id
-where YEAR(a.f_date) = '",fyear,"'
-AND MONTH(a.f_date)='",fmonth,"' ")
+where YEAR(c.create_time	) = '",fyear,"'
+AND MONTH(c.create_time	)='",fmonth,"' ")
 
   res <- tsda::mysql_select2(token =wms_token,sql = sql)
 
@@ -72,7 +72,7 @@ AND MONTH(a.f_date)='",fmonth,"' ")
 #' TmWMS_purchaseInbound_deleteBymonth()
 TmWMS_purchaseInbound_deleteBymonth<- function(dms_token,fyear,fmonth) {
   sql=paste0("delete  from rds_dms_src_t_pur_instock
-where YEAR(f_date) = '",fyear,"' AND MONTH(f_date )='",fmonth,"' ")
+where YEAR(create_time) = '",fyear,"' AND MONTH(create_time )='",fmonth,"' ")
 
   res <- tsda::sql_delete2(token =dms_token,sql_str = sql)
 
@@ -177,7 +177,7 @@ f_stock_id as ERP仓库代号,
 create_user_name as 负责人,
 f_lot_fnumber as 批号
 from rds_dms_src_t_pur_instock
-where CAST(f_date  AS date)  = '",fdate,"' ")
+where CAST(create_time  AS date)  = '",fdate,"' ")
 
   res <- tsda::sql_select2(token =dms_token,sql = sql)
 
@@ -229,7 +229,7 @@ f_stock_id as ERP仓库代号,
 create_user_name as 负责人,
 f_lot_fnumber as 批号
 from rds_dms_src_t_pur_instock
-where CAST(f_date  AS date) > ='",FStartDate,"' and CAST(f_date  AS date) <= '",FEndDate,"'
+where CAST(create_time  AS date) > ='",FStartDate,"' and CAST(create_time  AS date) <= '",FEndDate,"'
              ")
 
   res <- tsda::sql_select2(token =dms_token,sql = sql)
